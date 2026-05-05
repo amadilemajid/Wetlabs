@@ -17,7 +17,13 @@ async function bootstrap(): Promise<void> {
   logger.info('Starting WETLABS API', { env: env.NODE_ENV, port: env.PORT });
 
   await checkDbConnection();
-  await checkRedisConnection();
+  
+  // Try Redis connection but don't fail if it's not available
+  try {
+    await checkRedisConnection();
+  } catch (err) {
+    logger.warn('Redis connection failed - continuing without cache', { err });
+  }
 
   const app = express();
 
