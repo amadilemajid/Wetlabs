@@ -2,6 +2,10 @@
   "name": "wetlabs-deployment",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "deploy:render": "echo 'Deploying to Render...' && echo 'Push to GitHub to trigger deployment'",
     "deploy:vercel": "cd apps/web && vercel --prod",
