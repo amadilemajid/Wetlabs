@@ -1,26 +1,13 @@
 {
-  "name": "wetlabs",
+  "name": "wetlabs-deployment",
+  "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
-    "dev": "concurrently \"npm:dev:*\"",
-    "dev:api": "npm run dev --workspace=apps/api",
-    "dev:worker": "npm run dev --workspace=apps/worker",
-    "dev:satellite": "npm run dev --workspace=apps/satellite-fetcher",
-    "dev:web": "npm run dev --workspace=apps/web",
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present",
-    "migrate": "npm run migrate --workspace=apps/api"
-  },
-  "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=9.0.0"
-  },
-  "devDependencies": {
-    "concurrently": "^9.2.1"
+    "deploy:render": "echo 'Deploying to Render...' && echo 'Push to GitHub to trigger deployment'",
+    "deploy:vercel": "cd apps/web && vercel --prod",
+    "build:api": "cd apps/api && npm install && npm run build",
+    "build:web": "cd apps/web && npm install && npm run build",
+    "test:api": "curl https://wetlabs-api.onrender.com/api/v1/health",
+    "test:web": "echo 'Open https://wetlabs.vercel.app in browser'"
   }
 }

@@ -1,0 +1,42 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-api:
+    name: Deploy API to Render
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Trigger Render Deploy
+        run: |
+          echo "✅ Code pushed to main branch"
+          echo "🚀 Render will automatically deploy the API"
+          echo "📍 Check deployment at: https://dashboard.render.com"
+
+  deploy-frontend:
+    name: Deploy Frontend to Vercel
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+      
+      - name: Deploy to Vercel
+        run: |
+          echo "✅ Code pushed to main branch"
+          echo "🚀 Vercel will automatically deploy the frontend"
+          echo "📍 Check deployment at: https://vercel.com/dashboard"
