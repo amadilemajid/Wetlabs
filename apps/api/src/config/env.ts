@@ -7,6 +7,10 @@ function requireEnv(key: string): string {
   return val;
 }
 
+function optionalEnv(key: string, defaultValue: string = ''): string {
+  return process.env[key] ?? defaultValue;
+}
+
 export const env = {
   NODE_ENV:    process.env['NODE_ENV'] ?? 'development',
   PORT:        parseInt(process.env['PORT'] ?? '3000', 10),
@@ -19,8 +23,8 @@ export const env = {
   MSISDN_PEPPER:   requireEnv('MSISDN_PEPPER'),
   AT_USSD_HMAC_SECRET: requireEnv('AT_USSD_HMAC_SECRET'),
   INTERNAL_API_KEY:    requireEnv('INTERNAL_API_KEY'),
-  AT_API_KEY:          requireEnv('AT_API_KEY'),
-  SENDGRID_API_KEY:    requireEnv('SENDGRID_API_KEY'),
-  S3_BUCKET:           requireEnv('S3_BUCKET'),
-  S3_ENDPOINT:         requireEnv('S3_ENDPOINT'),
+  AT_API_KEY:          optionalEnv('AT_API_KEY'),
+  SENDGRID_API_KEY:    optionalEnv('SENDGRID_API_KEY'),
+  S3_BUCKET:           optionalEnv('S3_BUCKET', 'wetlabs-photos'),
+  S3_ENDPOINT:         optionalEnv('S3_ENDPOINT', 'https://s3.amazonaws.com'),
 } as const;
