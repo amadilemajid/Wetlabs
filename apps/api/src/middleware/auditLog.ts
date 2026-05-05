@@ -25,7 +25,7 @@ export async function writeAuditLog(
         event.target_type ?? null,
         event.target_id   ?? null,
         event.meta ? JSON.stringify(event.meta) : null,
-        req.ip ?? null,
+        (req as any).ip ?? null,
       ],
     );
   } catch (err) {

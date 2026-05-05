@@ -8,7 +8,7 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export function authenticate(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
-  const authHeader = req.headers['authorization'];
+  const authHeader = (req as any).headers['authorization'];
   if (!authHeader?.startsWith('Bearer ')) {
     res.status(401).json({ error: 'UNAUTHORISED', message: 'Missing Bearer token' });
     return;
