@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: wetlabs_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER:     wetlabs
+      POSTGRES_PASSWORD: wetlabs_secret
+      POSTGRES_DB:       wetlabs_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/migrations:/docker-entrypoint-initdb.d   # runs migrations on first start
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wetlabs -d wetlabs_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: wetlabs_redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: wetlabs_rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: wetlabs
+      RABBITMQ_DEFAULT_PASS: wetlabs_secret
+    ports:
+      - "5673:5672"    # AMQP
+      - "15672:15672"  # Management UI  ?  http://localhost:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:

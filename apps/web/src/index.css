@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import "tailwindcss";
+@import 'leaflet/dist/leaflet.css';
+
+@config "../tailwind.config.js";
+
+/* ── Base resets & Typography ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  background-color: #0A1628; /* canvas */
+  color: #f1f5f9;
+  font-family: "DM Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar styling ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(55, 65, 81, 0.6); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(75, 85, 99, 0.8); }
+
+/* ── Glassmorphism & UI Utilities ───────────────────────────────────────────── */
+@layer components {
+  .glass {
+    background: rgba(16, 32, 64, 0.7); /* canvas-900 */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(20, 184, 166, 0.15); /* teal grid border */
+  }
+
+  .glass-lighter {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .card {
+    background: rgba(16, 32, 64, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(20, 184, 166, 0.15);
+    @apply rounded-2xl p-6 shadow-panel;
+  }
+
+  .btn-primary {
+    @apply bg-teal-600 hover:bg-teal-500 text-white font-medium
+           px-4 py-2 rounded-xl transition-all duration-200
+           active:scale-95 focus-visible:outline-none
+           focus-visible:ring-2 focus-visible:ring-teal-400;
+  }
+
+  .btn-ghost {
+    @apply text-slate-300 hover:text-white hover:bg-white/5
+           px-3 py-2 rounded-lg transition-all duration-150
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400;
+  }
+
+  .input-base {
+    @apply bg-canvas-900/50 border border-teal-700/30
+           text-slate-100 placeholder-slate-500
+           rounded-xl px-4 py-2.5 text-sm
+           focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500/50
+           transition-all duration-150;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1
+           text-xs font-medium rounded-full;
+  }
+
+  .badge-high    { @apply bg-crimson-500/15 text-crimson-400 border border-crimson-500/20; }
+  .badge-medium  { @apply bg-amber-500/15   text-amber-400   border border-amber-500/20; }
+  .badge-low     { @apply bg-teal-500/15    text-teal-400    border border-teal-500/20; }
+  .badge-success { @apply bg-signal-500/15  text-signal-400  border border-signal-500/20; }
+}
+
+/* ── Leaflet dark map overrides ─────────────────────────────────────────────── */
+.leaflet-container {
+  background: #0A1628 !important; /* canvas */
+  font-family: "DM Mono", monospace;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(16, 32, 64, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  border-radius: 12px;
+  color: #f1f5f9;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.leaflet-popup-tip { background: rgba(16, 32, 64, 0.95); }
+
+.leaflet-control-zoom a {
+  background: rgba(16, 32, 64, 0.9) !important;
+  color: #94a3b8 !important;
+  border-color: rgba(20, 184, 166, 0.2) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: rgba(16, 32, 64, 1) !important;
+  color: #f1f5f9 !important;
+}
+
+/* ── Severity colour map ────────────────────────────────────────────────────── */
+.severity-HIGH    { color: #EF4444; } /* crimson */
+.severity-MEDIUM  { color: #F59E0B; } /* amber */
+.severity-LOW     { color: #2DD4BF; } /* teal-400 */
+.severity-UNKNOWN { color: #94a3b8; }
+
+/* ── Smooth page transitions ────────────────────────────────────────────────── */
+.page-enter { animation: fade-in 0.3s ease-out; }

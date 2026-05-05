@@ -1,0 +1,67 @@
+/* USSD Screen Text Color Fix */
+
+/* SMS Screen - Dark text on light background */
+.bg-\[\#f5f5f0\] p,
+.bg-\[\#f5f5f0\] span {
+  color: #000 !important;
+}
+
+.bg-\[\#f5f5f0\] .text-gray-400 {
+  color: #374151 !important;
+}
+
+.bg-\[\#f5f5f0\] .text-gray-500 {
+  color: #1f2937 !important;
+}
+
+.bg-\[\#f5f5f0\] .text-gray-600 {
+  color: #111827 !important;
+}
+
+.bg-\[\#f5f5f0\] .text-gray-800 {
+  color: #000 !important;
+}
+
+.bg-\[\#f5f5f0\] .font-mono {
+  color: #000 !important;
+}
+
+/* White message boxes */
+.bg-white p,
+.bg-white span {
+  color: #000 !important;
+}
+
+.bg-white .text-gray-400 {
+  color: #4b5563 !important;
+}
+
+.bg-white .text-gray-500 {
+  color: #1f2937 !important;
+}
+
+.bg-white .text-gray-600 {
+  color: #111827 !important;
+}
+
+.bg-white .text-gray-800 {
+  color: #000 !important;
+}
+
+/* Blue info boxes */
+.bg-blue-50 p {
+  color: #1e40af !important;
+}
+
+/* Report summary text */
+.font-mono.text-\[9px\] {
+  color: #000 !important;
+}
+
+.font-mono.text-\[10px\] {
+  color: #000 !important;
+}
+
+.font-mono.text-\[11px\] {
+  color: #000 !important;
+}
