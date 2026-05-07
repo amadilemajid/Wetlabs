@@ -26,7 +26,7 @@ Open these 3 websites and sign up:
    ```
    postgresql://username:password@ep-xxx.us-east-2.aws.neon.tech/wetlabs_db
    ```
-8. **PASTE IT HERE**: _________________________________
+8. **PASTE IT HERE**: ______postgresql://neondb_owner:npg_BnNri5P3dvYp@ep-autumn-resonance-amrye4e9-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require___________________________
 
 #### B. Upstash (Redis Cache)
 1. **Open**: https://console.upstash.com
@@ -40,7 +40,7 @@ Open these 3 websites and sign up:
    ```
    redis://default:xxxxx@xxxxx.upstash.io:6379
    ```
-9. **PASTE IT HERE**: _________________________________
+9. **PASTE IT HERE**: ____redis-cli --tls -u redis://default:gQAAAAAAAUkzAAIgcDI0YmQzNGQ5OTViYWI0MzZiYmRhOWFmODAwZjdjYWQ2MA@fancy-mantis-84275.upstash.io:6379_____________________________
 
 #### C. CloudAMQP (Message Queue)
 1. **Open**: https://customer.cloudamqp.com/signup
@@ -55,7 +55,7 @@ Open these 3 websites and sign up:
    ```
    amqp://xxxxx:xxxxx@xxx.cloudamqp.com/xxxxx
    ```
-10. **PASTE IT HERE**: _________________________________
+10. **PASTE IT HERE**: ____amqps://bkxercel:Jf0TRlIG752IYj_KSnl2JGWvDvxELswo@gerbil.rmq.cloudamqp.com/bkxercel_____________________________
 
 ---
 
@@ -105,7 +105,7 @@ Add these 3:
    ```
    https://wetlabs-api.onrender.com
    ```
-4. **PASTE IT HERE**: _________________________________
+4. **PASTE IT HERE**: ___https://wetlabs-api.onrender.com______________________________
 
 ---
 
@@ -144,7 +144,7 @@ Scroll to "Environment Variables" section
    ```
    https://wetlabs.vercel.app
    ```
-4. **PASTE IT HERE**: _________________________________
+4. **PASTE IT HERE**: _________wetlabs-web.vercel.app________________________
 
 ---
 

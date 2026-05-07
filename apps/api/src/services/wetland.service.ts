@@ -6,10 +6,14 @@ const WETLAND_CACHE_TTL = 300; // 5 minutes — boundaries don't change often
 
 export async function getAllWetlands(): Promise<unknown> {
   const cacheKey = 'cache:wetlands:geojson';
-  const cached   = await redis.get(cacheKey);
-  if (cached) {
-    logger.debug('Wetlands served from cache');
-    return JSON.parse(cached) as unknown;
+  try {
+    const cached = await redis.get(cacheKey);
+    if (cached) {
+      logger.debug('Wetlands served from cache');
+      return JSON.parse(cached) as unknown;
+    }
+  } catch (err) {
+    logger.warn('Redis cache read failed, querying database', { err });
   }
 
   const result = await db.query(
@@ -37,7 +41,11 @@ export async function getAllWetlands(): Promise<unknown> {
     })),
   };
 
-  await redis.setex(cacheKey, WETLAND_CACHE_TTL, JSON.stringify(geojson));
+  try {
+    await redis.setex(cacheKey, WETLAND_CACHE_TTL, JSON.stringify(geojson));
+  } catch (err) {
+    logger.warn('Redis cache write failed', { err });
+  }
   return geojson;
 }
 
@@ -47,8 +55,12 @@ export async function getWetlandSummary(
   to?: string,
 ): Promise<unknown> {
   const cacheKey = `cache:wetland:summary:${wetland_code}:${from ?? 'default'}:${to ?? 'default'}`;
-  const cached   = await redis.get(cacheKey);
-  if (cached) return JSON.parse(cached) as unknown;
+  try {
+    const cached = await redis.get(cacheKey);
+    if (cached) return JSON.parse(cached) as unknown;
+  } catch (err) {
+    logger.warn('Redis cache read failed', { err });
+  }
 
   const fromDate = from ?? new Date(Date.now() - 30 * 86_400_000).toISOString();
   const toDate   = to   ?? new Date().toISOString();
@@ -90,7 +102,13 @@ export async function getWetlandSummary(
   // Latest NDVI/NDWI from cache (populated by satellite-fetcher cron, FR-10)
   const ndviKey  = `satellite:ndvi:${wetland_code}`;
   const ndwiKey  = `satellite:ndwi:${wetland_code}`;
-  const [ndviRaw, ndwiRaw] = await Promise.all([redis.get(ndviKey), redis.get(ndwiKey)]);
+  let ndviRaw: string | null = null;
+  let ndwiRaw: string | null = null;
+  try {
+    [ndviRaw, ndwiRaw] = await Promise.all([redis.get(ndviKey), redis.get(ndwiKey)]);
+  } catch (err) {
+    logger.warn('Redis satellite data read failed', { err });
+  }
   const ndvi = ndviRaw ? (JSON.parse(ndviRaw) as unknown) : null;
   const ndwi = ndwiRaw ? (JSON.parse(ndwiRaw) as unknown) : null;
 
@@ -112,6 +130,10 @@ export async function getWetlandSummary(
     },
   };
 
-  await redis.setex(cacheKey, 120, JSON.stringify(summary)); // 2 min cache
+  try {
+    await redis.setex(cacheKey, 120, JSON.stringify(summary)); // 2 min cache
+  } catch (err) {
+    logger.warn('Redis cache write failed', { err });
+  }
   return summary;
 }
